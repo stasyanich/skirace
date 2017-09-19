@@ -5,10 +5,7 @@ import javafx.scene.control.TextArea;
 import javafx.stage.FileChooser;
 
 import java.io.*;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
+import java.util.*;
 
 public class MainController {
     @FXML private Label fileNameLabel;
@@ -22,7 +19,9 @@ public class MainController {
         try {
             File file = fileChooser.showOpenDialog(Main.getStage());
             if (file != null){
-                parseTxtFile(file);
+                ArrayList<String[]> parsedFile = parseTxtFile(file);
+                sortingArrayList(parsedFile);
+
             }
             membersTextArea.setText(skiRacers);
 
@@ -32,19 +31,19 @@ public class MainController {
         }
     }
 
-    private void parseTxtFile(File file){
-        HashMap<String,String> result = new HashMap<>();
+    private ArrayList<String[]> parseTxtFile(File file){
+        ArrayList<String[]> result = new ArrayList<>();
         fileNameLabel.setText(file.getName());
         try {
             BufferedReader reader = new BufferedReader(new FileReader(file));
-            String[] str;
             String s;
             while ((s=reader.readLine()) != null){
-                str = s.split(",");
-                result.put(str[0],str[1]);
-
+                String[] tmp = s.split(",");
+                result.add(tmp);
             }
-            skiRacers = printMap(result);
+
+
+            System.out.println(result);
         }catch (FileNotFoundException e){
             txtAlert("Файл не найден!");
             e.printStackTrace();
@@ -52,6 +51,7 @@ public class MainController {
             txtAlert("Ошибка чтения!");
             e.printStackTrace();
         }
+        return result;
     }
 
     private void txtAlert(String errorText){
@@ -60,36 +60,24 @@ public class MainController {
         fileNameLabel.setText("ERROR");
         alert.showAndWait();
     }
-    private String printMap(HashMap<String,String> hashMap){
-        String result ="";
 
-        for(Map.Entry<String, String> entry: hashMap.entrySet()){
-            String key = entry.getKey();
-            String value = entry.getValue();
-
-            result += key + " - "+ value + "\n";
-            System.out.println("Ключ: " + key + " - Значение: "+ value);
-
+    private void sortingArrayList(ArrayList<String[]> arrayList){
+        ArrayList<String[]> tempArrayList = new ArrayList<>();
+        Set<String> set = new HashSet<>();
+        for (String[] tmp : arrayList) {
+            set.add(tmp[1]);
         }
 
-        return result;
-    }
+        for (int i = 0; i < arrayList.size();i++ ){
+            String[] tmp = arrayList.get(i);
+            Iterator<String> iterator = set.iterator();
+            while (iterator.hasNext()){
 
-    private HashMap<String, String> shuffle(HashMap<String,String> hashMap){
-
-        HashMap<String, String> result = new HashMap<>();
-        Iterator<Map.Entry<String,String>> it = hashMap.entrySet().iterator();
-
-        while (it.hasNext()){
-            Map.Entry<String, String> entry = it.next(); //текущий элемент который смотрим
-
-
-            if (entry.getValue().equals("")){
-
+                if (iterator.next().equals(tmp[1])){
+                    iterator.
+                }
             }
         }
 
-
-        return result;
     }
 }
