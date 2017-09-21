@@ -31,33 +31,35 @@ public class MainController {
         }
     }
 
-    private ArrayList<String[]> antiSorting(ArrayList<String[]> arrayList) {
+    private ArrayList<String[]> antiSorting(ArrayList<String[]> IncomingArrayList) {
         ArrayList<String[]> result = new ArrayList<>();
         ArrayList<String[]> tmp = new ArrayList<>();
 
-        tmp.add(arrayList.get(0));
-        result.add(arrayList.get(0));
-        arrayList.remove(0);
-            while (arrayList.size() > 0) {
-                for (int i = 0; i < arrayList.size(); i++) {
-                    if (!arrayList.get(i)[1].equals(tmp.get(0)[1])) {
-                        tmp.clear();
-                        tmp.add(arrayList.get(i));
-                        result.add(arrayList.get(i));
-                        arrayList.remove(i);
-                    }
+        tmp.add(IncomingArrayList.get(0));
+        result.add(IncomingArrayList.get(0));
+        IncomingArrayList.remove(0);
+
+        while (IncomingArrayList.size() > 0) {
+            for (int i = 0; i < IncomingArrayList.size(); i++) {
+                if (!IncomingArrayList.get(i)[1].equals(tmp.get(0)[1])) {
+                    tmp.clear();
+                    tmp.add(IncomingArrayList.get(i));
+                    result.add(IncomingArrayList.get(i));
+                    IncomingArrayList.remove(i);
                 }
             }
+        }
         return result;
     }
 
-    private void printToTextArea(ArrayList<String[]> arrayList) {
+    private void printToTextArea(ArrayList<String[]> IncomingArrayList) {
         membersTextArea.setText("");
         StringBuilder sb = new StringBuilder();
-            for (String[] str : arrayList) {
-                sb.append(str[0]).append(" - ").append(str[1]).append("\n");
-            }
-            membersTextArea.setText(sb.toString());
+
+        for (String[] str : IncomingArrayList) {
+            sb.append(str[0]).append(" - ").append(str[1]).append("\n");
+        }
+        membersTextArea.setText(sb.toString());
     }
 
     private ArrayList<String[]> parseTxtFile(File file) {
